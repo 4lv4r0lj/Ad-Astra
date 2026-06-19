@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "../layouts/Base.astro";
+import astronautFalling from "../assets/webp/astronaut-falling.webp";
 ---
 
 <Layout
@@ -19,15 +21,15 @@ import Layout from "../layouts/Base.astro";
             <p class="">
                 Go <a
                     class="text-inherit underline"
-                    href=`${import.meta.env.BASE_URL}/`>home</a
+                    href={`${import.meta.env.BASE_URL}/`}>home</a
                 >.
             </p>
         </div>
 
         <!-- Image container -->
         <div class="w-11/12 -scale-x-100 transform animate-float md:max-w-md">
-            <img
-                src=`${import.meta.env.BASE_URL}/webp/astronaut-falling.webp`
+            <Image
+                src={astronautFalling}
                 alt="Falling astronaut"
             />
         </div>

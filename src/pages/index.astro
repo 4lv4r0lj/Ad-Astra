@@ -42,10 +42,14 @@ import Layout from "../layouts/Base.astro";
         <!-- Rocket animation -->
         <div class="lg:max-w-sm xl:max-w-md">
             <dotlottie-player
-                src=`${import.meta.env.BASE_URL}/rocket-dark.json`
+                src={`${import.meta.env.BASE_URL}/rocket-dark.json`}
                 speed="0.5"
                 loop
                 autoplay></dotlottie-player>
         </div>
     </div>
 </Layout>
+
+<script>
+    import "@dotlottie/player-component";
+</script>

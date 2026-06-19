@@ -1,5 +1,6 @@
 ---
-
+import SearchIcon from "./icons/SearchIcon.astro";
+import CloseIcon from "./icons/CloseIcon.astro";
 ---
 
 <div class="flex items-center pb-1">
@@ -18,12 +19,12 @@
             class="duration-600 custom-bezier absolute bottom-0 right-[2px] top-0 m-auto grid h-11 w-11 cursor-pointer place-items-center rounded-[50%] bg-[color:var(--background-color)] transition-transform"
             id="search-button"
         >
-            <i
-                class="ri-search-2-line custom-bezier absolute text-2xl text-[color:var(--text-color)] transition-opacity duration-500"
-                id="search-icon"></i>
-            <i
-                class="ri-close-line custom-bezier absolute text-2xl text-[color:var(--text-color)] opacity-0 transition-opacity duration-500"
-                id="search-close"></i>
+            <SearchIcon
+                class="custom-bezier absolute text-2xl text-[color:var(--text-color)] transition-opacity duration-500"
+                id="search-icon" />
+            <CloseIcon
+                class="custom-bezier absolute text-2xl text-[color:var(--text-color)] opacity-0 transition-opacity duration-500"
+                id="search-close" />
         </div>
     </form>
 </div>

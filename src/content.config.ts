@@ -1,21 +1,24 @@
-import { defineCollection, z, type CollectionEntry } from "astro:content";
+import { defineCollection, type CollectionEntry } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro:schema";
 
 const posts = defineCollection({
-    type: "content",
+    loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
     // Type-check frontmatter using a schema
-    schema: z.object({
-        title: z.string(),
-        description: z.string(),
-        authors: z.array(z.string()),
-        tags: z.array(z.string()),
-        pubDate: z.coerce.date(), // Transform string to Date object
-        updatedDate: z.coerce.date().optional(),
-        image: z.string().optional(),
-    }),
+    schema: ({ image }) =>
+        z.object({
+            title: z.string(),
+            description: z.string(),
+            authors: z.array(z.string()),
+            tags: z.array(z.string()),
+            pubDate: z.coerce.date(), // Transform string to Date object
+            updatedDate: z.coerce.date().optional(),
+            image: image().optional(),
+        }),
 });
 
 const contributors = defineCollection({
-    type: "data",
+    loader: glob({ pattern: "**/*.json", base: "./src/content/contributors" }),
     schema: z
         .object({
             name: z.string().optional(),

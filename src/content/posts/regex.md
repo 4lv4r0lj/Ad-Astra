@@ -4,7 +4,7 @@ description: "A clear and practical guide to regular expressions: how they work 
 authors: ["Akreed"]
 tags: []
 pubDate: "24 Jul 2025"
-image: "/Ad-Astra/posts/regex.png"
+image: "../../assets/posts/regex.png"
 
 ---
 

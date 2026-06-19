@@ -1,11 +1,13 @@
 ---
+import { Image } from "astro:assets";
 import Layout from "../layouts/Base.astro";
 import Contributors from "../components/Contributors.astro";
+import profilePicture from "../assets/webp/profile-picture.webp";
 ---
 
 <Layout
     title="About Me - Creator of Ad Astra"
-    description="Learn about Akreed, the creator of Ad Astra. This blog is an open-source, example-driven encyclopedia where I document my learning journey and contributions from the community."
+    description="Learn about 4lv4r0lj, the creator of Ad Astra. This blog is an open-source, example-driven encyclopedia where I document my learning journey and contributions from the community."
 >
     <!-- Parent container -->
     <div
@@ -18,19 +20,19 @@ import Contributors from "../components/Contributors.astro";
             <div id="text" class="flex w-5/6 text-lg">
                 <p>
                     My name is Alvaro Lopez (<a
-                        href="https://github.com/4kreed"
+                        href="https://github.com/4lv4r0lj"
                         target="_blank"
-                        rel="noopener">@Akreed</a
+                        rel="noopener">@4lv4r0lj</a
                     >), I'm a <span class="text-indigo-400/90"
                         >security software engineer</span
                     > on a continuous journey of learning and self-improvement.
                 </p>
             </div>
-            <a href="https://github.com/4kreed" target="_blank" rel="noopener">
-                <img
-                    class="size-28 min-w-28 rounded-2xl border-2 border-indigo-400/50"
-                    src=`${import.meta.env.BASE_URL}/webp/profile-picture.webp`
-                    alt="Akreed's logo"
+            <a href="https://github.com/4lv4r0lj" target="_blank" rel="noopener">
+                <Image
+                    class="size-28 min-w-28 rounded-2xl border-2 border-indigo-400/50 object-cover"
+                    src={profilePicture}
+                    alt="4lv4r0lj's logo"
                 />
             </a>
         </div>

@@ -4,81 +4,80 @@
 
 @font-face {
     font-family: "Adam CG Pro";
-    src: url("/Ad-Astra/fonts/adam-cg-pro.otf") format("opentype");
+    src: url("../assets/fonts/adam-cg-pro.otf") format("opentype");
 }
 
 @font-face {
     font-family: "Nova Square";
-    src: url("/Ad-Astra/fonts/NovaSquare-Regular.ttf") format("truetype");
+    src: url("../assets/fonts/NovaSquare-Regular.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-Bold.ttf") format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Bold.ttf") format("truetype");
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-BoldItalic.ttf") format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-BoldItalic.ttf") format("truetype");
     font-weight: 700;
     font-style: italic;
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-Italic.ttf") format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Italic.ttf") format("truetype");
     font-weight: 400;
     font-style: italic;
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-Light.ttf") format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Light.ttf") format("truetype");
     font-weight: 300;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-LightItalic.ttf") format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-LightItalic.ttf") format("truetype");
     font-weight: 300;
     font-style: italic;
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-Medium.ttf") format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Medium.ttf") format("truetype");
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-MediumItalic.ttf") format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-MediumItalic.ttf") format("truetype");
     font-weight: 500;
     font-style: italic;
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-Regular.ttf") format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-SemiBold.ttf") format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-SemiBold.ttf") format("truetype");
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Chakra Petch";
-    src: url("/Ad-Astra/fonts/ChakraPetch-SemiBoldItalic.ttf")
-        format("truetype");
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-SemiBoldItalic.ttf") format("truetype");
     font-weight: 600;
     font-style: italic;
 }

@@ -6,8 +6,8 @@ import Search from "./Search.astro";
 <nav
     class="sticky inset-x-0 bottom-0 flex max-h-20 min-h-16 flex-grow items-center justify-evenly rounded bg-[color:var(--background-color)] opacity-85 md:relative md:inset-x-auto md:bottom-auto md:rounded-none md:bg-transparent md:opacity-100"
 >
-    <NavLink href=`${import.meta.env.BASE_URL}/about`>About</NavLink>
-    <NavLink href=`${import.meta.env.BASE_URL}/posts/1`>Posts</NavLink>
-    <NavLink href=`${import.meta.env.BASE_URL}/tags`>Tags</NavLink>
+    <NavLink href={`${import.meta.env.BASE_URL}/about`}>About</NavLink>
+    <NavLink href={`${import.meta.env.BASE_URL}/posts/1`}>Posts</NavLink>
+    <NavLink href={`${import.meta.env.BASE_URL}/tags`}>Tags</NavLink>
     <Search />
 </nav>

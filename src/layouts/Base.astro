@@ -4,31 +4,50 @@ import Logo from "../components/Logo.astro";
 // import ThemeToggle from "../components/ThemeToggle.astro";
 import NavBar from "../components/NavBar.astro";
 
-const { title, description } = Astro.props;
+import type { ArticleData } from "../components/BaseHead.astro";
+
+interface Props {
+    title: string;
+    description: string;
+    image?: string;
+    articleData?: ArticleData;
+}
+
+const { title, description, image, articleData } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en" class="dark h-full">
     <head>
-        <BaseHead title={title} description={description} />
+        <BaseHead title={title} description={description} image={image} articleData={articleData} />
     </head>
 
     <body class="h-full bg-[color:var(--background-color)]">
-        <div id="background" class="fixed inset-0 z-[-1]">
-            <div
-                class="space space-1 absolute left-0 top-0 size-[var(--size)] animate-moveStars rounded-full bg-white opacity-75 shadow-space-layer"
-            >
-            </div>
-            <div
-                class="space space-2 absolute left-0 top-0 size-[var(--size)] animate-moveStars rounded-full bg-white opacity-75 shadow-space-layer"
-            >
-            </div>
-            <div
-                class="space space-3 absolute left-0 top-0 size-[var(--size)] animate-moveStars rounded-full bg-white opacity-75 shadow-space-layer"
-            >
-            </div>
+        <div id="background" class="fixed inset-0 z-[-1] hidden dark:block">
+            {
+                [
+                    { size: "1px", count: 200, duration: "35s" },
+                    { size: "2px", count: 75, duration: "30s" },
+                    { size: "3px", count: 15, duration: "20s" },
+                ].map(({ size, count, duration }) => {
+                    const COLORS = ["#fff", "#fff2", "#fff4", "#fff7", "#fffc"];
+                    const layer = [];
+                    for (let i = 0; i < count; i++) {
+                        const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+                        const x = Math.floor(Math.random() * 100);
+                        const y = Math.floor(Math.random() * 100);
+                        layer.push(`${x}vw ${y}vh 0 ${color}, ${x}vw ${y + 100}vh 0 ${color}`);
+                    }
+                    const boxShadow = layer.join(",");
+                    return (
+                        <div
+                            class="absolute left-0 top-0 animate-moveStars rounded-full bg-white opacity-75"
+                            style={`width: ${size}; height: ${size}; box-shadow: ${boxShadow}; --duration: ${duration};`}
+                        />
+                    );
+                })
+            }
         </div>
-        <!-- <ThemeToggle /> -->
         <div id="content" class="mx-auto flex min-h-screen max-w-5xl flex-col">
             <Logo />
             <div
@@ -38,70 +57,5 @@ const { title, description } = Astro.props;
                 <NavBar />
             </div>
         </div>
-        <script>
-            /**
-             * Generates a space layer with stars.
-             *
-             * @param {string} size - The size of the stars.
-             * @param {string} selector - The CSS selector for the container.
-             * @param {number} totalStars - The total number of stars to generate.
-             * @param {string} duration - The duration of the animation.
-             */
-            function generateSpaceLayer(
-                size: string,
-                selector: string,
-                totalStars: number,
-                duration: string,
-            ): void {
-                const theme = (() => {
-                    if (
-                        typeof localStorage !== "undefined" &&
-                        localStorage.getItem("theme")
-                    ) {
-                        return localStorage.getItem("theme") || "light";
-                    }
-                    if (
-                        window.matchMedia("(prefers-color-scheme: dark)")
-                            .matches
-                    ) {
-                        return "dark";
-                    }
-                    return "light";
-                })();
-
-                if (theme == "dark") {
-                    const layer: string[] = [];
-                    const COLORS = ["#fff", "#fff2", "#fff4", "#fff7", "#fffc"];
-
-                    for (let i = 0; i < totalStars; i++) {
-                        const color =
-                            COLORS[Math.floor(Math.random() * COLORS.length)];
-                        const x = Math.floor(Math.random() * 100);
-                        const y = Math.floor(Math.random() * 100);
-                        layer.push(
-                            `${x}vw ${y}vh 0 ${color}, ${x}vw ${y + 100}vh 0 ${color}`,
-                        );
-                    }
-
-                    const container = document.querySelector(
-                        selector,
-                    ) as HTMLElement | null;
-                    if (container) {
-                        container.style.setProperty(
-                            "--space-layer",
-                            layer.join(","),
-                        );
-                        container.style.setProperty("--size", size);
-                        container.style.setProperty("--duration", duration);
-                    }
-                }
-            }
-
-            document.addEventListener("DOMContentLoaded", () => {
-                generateSpaceLayer("1px", ".space-1", 200, "35s");
-                generateSpaceLayer("2px", ".space-2", 75, "30s");
-                generateSpaceLayer("3px", ".space-3", 15, "20s");
-            });
-        </script>
     </body>
 </html>

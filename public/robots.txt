@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://4kreed.github.io/Ad-Astra/sitemap-index.xml

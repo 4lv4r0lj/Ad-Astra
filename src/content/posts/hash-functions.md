@@ -4,7 +4,7 @@ description: "An in-depth guide to cryptographic hash functions, their essential
 authors: ["Akreed"]
 tags: ["hash-function", "cryptography", "data-integrity", "python", "security"]
 pubDate: "27 Sep 2025"
-image: "/Ad-Astra/posts/hash-functions.png"
+image: "../../assets/posts/hash-functions.png"
 ---
 
 A **hash function** is a deterministic mathematical algorithm that takes an input of arbitrary size—such as a file, a string, or any block of digital data—and converts it into a fixed-length string of bytes. This output is known as a hash value, hash code, message digest, or fingerprint. The core property of a hash function is its determinism: the same input will always produce the exact same output, consistently and predictably, every single time it is processed by the same function.
@@ -48,7 +48,7 @@ Python's built-in `hashlib` module is the de-facto standard for cryptographic ha
 
 The following example demonstrates how to hash a simple string using the widely recommended SHA-256 algorithm.
 
-```Python
+```python
 import hashlib
 
 # Define the input string
@@ -78,7 +78,7 @@ The string is first converted into a sequence of bytes using `encode()`, as hash
 
 By making a single, seemingly minor change to the input string, the resulting hash value is completely and unpredictably altered, visually confirming the avalanche effect.
 
-```Python
+```python
 import hashlib
 
 # Original string from Step 1
@@ -108,7 +108,7 @@ The two outputs are entirely different, even though only one character was chang
 
 A common real-world application is to verify that a downloaded file has not been corrupted or tampered with. A robust function for this task must handle large files efficiently by reading them in chunks, rather than loading the entire file into memory at once.
 
-```Python
+```python
 import hashlib
 
 def calculate_file_hash(file_path, algorithm='sha256'):
@@ -169,7 +169,7 @@ A preimage attack tries to find an input that produces a specific hash. If succe
 
 #### Demo
 
-```Python
+```python
 import hashlib
 import itertools
 import string
@@ -195,7 +195,7 @@ If passwords are stored as raw hashes without extra protection (salt and pepper)
 
 #### Demo
 
-```Python
+```python
 import hashlib
 
 # Pretend this is a stolen password hash

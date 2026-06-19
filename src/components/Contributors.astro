@@ -21,7 +21,7 @@ const contributors = await getCollection("contributors");
                         <div>
                             <img
                                 src={contributor.data.picture}
-                                alt="{contributor.name}"
+                                alt={contributor.data.name || contributor.data.nick || "Contributor"}
                                 class="size-14 min-w-14 rounded-full"
                             />
                         </div>

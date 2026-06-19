@@ -4,7 +4,7 @@ description: "Solving the classic Two Sum leetcode problem in Python, exploring 
 authors: ["Akreed"]
 tags: ["leetcode", "python", "array", "hash table", "two pointers", "sorting"]
 pubDate: "13 Oct 2024"
-image: "/Ad-Astra/posts/leetcode-1-two-sum.png"
+image: "../../assets/posts/leetcode-1-two-sum.png"
 ---
 
 This leetcode exercise can be found at https://leetcode.com/problems/two-sum
