@@ -1,10 +1,10 @@
 ---
 title: "Regular Expressions (Regex)"
 description: "A clear and practical guide to regular expressions: how they work and how to apply them to real-world text processing tasks."
-authors: ["Akreed"]
+authors: ["4lv4r0lj"]
 tags: []
 pubDate: "24 Jul 2025"
-image: "../../assets/posts/regex.png"
+image: "./regex.png"
 
 ---
 

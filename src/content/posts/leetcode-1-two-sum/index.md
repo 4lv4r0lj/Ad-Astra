@@ -1,10 +1,10 @@
 ---
 title: "LeetCode: #1 Two Sum"
 description: "Solving the classic Two Sum leetcode problem in Python, exploring various strategies."
-authors: ["Akreed"]
+authors: ["4lv4r0lj"]
 tags: ["leetcode", "python", "array", "hash table", "two pointers", "sorting"]
 pubDate: "13 Oct 2024"
-image: "../../assets/posts/leetcode-1-two-sum.png"
+image: "./leetcode-1-two-sum.png"
 ---
 
 This leetcode exercise can be found at https://leetcode.com/problems/two-sum

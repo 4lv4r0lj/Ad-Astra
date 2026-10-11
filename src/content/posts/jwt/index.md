@@ -1,10 +1,10 @@
 ---
 title: "JSON Web Token (JWT)"
 description: "A straightforward guide to understanding what JWTs are, how they work, and how to create and verify them in Python."
-authors: ["Akreed"]
+authors: ["4lv4r0lj"]
 tags: ["jwt", "authentication", "web-security", "python"]
 pubDate: "12 Oct 2025"
-image: "../../assets/posts/jwt.png"
+image: "./jwt.png"
 ---
 
 A **JSON Web Token (JWT)** is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs are often used for authentication and authorization in web applications.

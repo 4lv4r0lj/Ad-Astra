@@ -1,10 +1,10 @@
 ---
 title: "Hash Functions"
 description: "An in-depth guide to cryptographic hash functions, their essential security properties, use cases and practical examples."
-authors: ["Akreed"]
+authors: ["4lv4r0lj"]
 tags: ["hash-function", "cryptography", "data-integrity", "python", "security"]
 pubDate: "27 Sep 2025"
-image: "../../assets/posts/hash-functions.png"
+image: "./hash-functions.png"
 ---
 
 A **hash function** is a deterministic mathematical algorithm that takes an input of arbitrary size—such as a file, a string, or any block of digital data—and converts it into a fixed-length string of bytes. This output is known as a hash value, hash code, message digest, or fingerprint. The core property of a hash function is its determinism: the same input will always produce the exact same output, consistently and predictably, every single time it is processed by the same function.
