@@ -29,6 +29,7 @@ const formattedDate = formatDate(post.data.pubDate);
 
 import { Image } from "astro:assets";
 import heroImage from "../../assets/webp/hero-image.webp";
+import ImageLightbox from "../../components/ImageLightbox.astro";
 ---
 
 <Layout
@@ -44,7 +45,7 @@ import heroImage from "../../assets/webp/hero-image.webp";
         class="mx-auto mt-4 flex w-5/6 flex-col gap-4 text-pretty pb-8 font-404 text-[color:var(--text-color)] sm:mt-8 sm:gap-7"
     >
         <div
-            class="flex justify-center [&>img]:aspect-video [&>img]:max-h-72 [&>img]:w-9/12 [&>img]:rounded-lg [&>img]:object-cover"
+            class="flex justify-center [&>img]:aspect-video [&>img]:max-h-72 [&>img]:w-9/12 [&>img]:cursor-zoom-in [&>img]:rounded-lg [&>img]:object-cover"
         >
             {
                 post.data.image ? (
@@ -74,9 +75,10 @@ import heroImage from "../../assets/webp/hero-image.webp";
         </div>
 
         <div
-            class="prose dark:prose-invert prose-a:text-blue-400 prose-code:before:content-none prose-code:after:content-none prose-li:marker:text-[color:var(--text-color)]"
+            class="prose dark:prose-invert prose-a:text-blue-400 prose-code:before:content-none prose-code:after:content-none prose-li:marker:text-[color:var(--text-color)] prose-img:cursor-zoom-in prose-img:rounded-lg"
         >
             <Content />
         </div>
     </article>
+    <ImageLightbox />
 </Layout>
