@@ -1,6 +1,35 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-header: "Adam CG Pro", sans-serif;
+    --font-404: "Nova Square", sans-serif;
+    --font-chakra: "Chakra Petch", sans-serif;
+
+    --ease-custom-bezier: cubic-bezier(0.9, 0, 0.3, 0.9);
+
+    --animate-float: floatAnimation 4s ease-in-out infinite;
+    --animate-moveStars: moveStars var(--duration) linear infinite;
+
+    --shadow-space-layer: var(--space-layer);
+}
+
+@keyframes floatAnimation {
+    0% { transform: scaleX(-1) translateY(0); }
+    50% { transform: scaleX(-1) translateY(-20px); }
+    100% { transform: scaleX(-1) translateY(0); }
+}
+
+@keyframes moveStars {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100vh); }
+}
+
+@utility object-top-crop {
+    object-position: 0 -15px;
+}
 
 @font-face {
     font-family: "Adam CG Pro";
