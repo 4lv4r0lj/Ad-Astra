@@ -11,9 +11,7 @@
     --ease-custom-bezier: cubic-bezier(0.9, 0, 0.3, 0.9);
 
     --animate-float: floatAnimation 4s ease-in-out infinite;
-    --animate-moveStars: moveStars var(--duration) linear infinite;
-
-    --shadow-space-layer: var(--space-layer);
+    --animate-moveStars: moveStars linear infinite;
 }
 
 @keyframes floatAnimation {

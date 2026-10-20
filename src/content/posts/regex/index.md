@@ -130,3 +130,5 @@ The following examples / exercises demonstrate the application of these concepts
 * [regexone.com](https://regexone.com)
 * [regexr.com](https://regexr.com/)
 * [regex101.com](https://regex101.com/)
+
+*Decode the patterns, keep your eyes on the stars. Ad astra per aspera.*

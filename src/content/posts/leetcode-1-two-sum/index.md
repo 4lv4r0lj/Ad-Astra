@@ -101,3 +101,5 @@ You can return the answer in any order.
                 else:
                     right -= 1
     ```
+
+*Embrace every challenge, climb toward the stars. Ad astra per aspera.*

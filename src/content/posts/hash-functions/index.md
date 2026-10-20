@@ -290,3 +290,5 @@ Some commonly used tools with Hash Functions & Hashes are:
 * [MDN Web Docs: Hash Functions](https://developer.mozilla.org/en-US/docs/Glossary/Hash_function)
 * [NIST: Hash Functions](https://csrc.nist.gov/projects/hash-functions)
 * [Python haslib](https://docs.python.org/3/library/hashlib.html)
+
+*Master the fundamentals, chart your course to the stars. Ad astra per aspera.*

@@ -398,3 +398,5 @@ key_file_path = KEY_MAPPING[kid]
 * [OWASP JWT Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet_for_Java.html): An essential security resource listing common attacks and countermeasures in detail.
 * (**Recommended**) [PortSwigger - JWT Vulnerabilities](https://portswigger.net/web-security/jwt): The Web Security Academy provides excellent explanations and hands-on labs to practice exploiting these vulnerabilities.
 
+*Question every assumption, reach for the stars. Ad astra per aspera.*
+
