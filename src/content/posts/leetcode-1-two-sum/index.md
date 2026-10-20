@@ -60,7 +60,7 @@ You can return the answer in any order.
 ## Hash Map
 
 -   **Key Idea**: Use a hash map to store the difference between the target and each element (the complement). This allows you to instantly check if a complement has already been seen as you iterate through the list.
--   **Description**: This method improves efficiency by using a hash map (Python’s dictionary) to store the numbers we've already seen along with their indices. As we iterate through the array, for each number, we calculate the complement (the value that, when added to the current number, equals the target). Before moving on, we check if the complement already exists in the hash map. If it does, we’ve found our two numbers, and we return their indices. This approach works in linear time because checking the hash map for a complement is an O(1) operation.
+-   **Description**: This method improves efficiency by using a [hash map](/posts/hash-functions/) (Python’s dictionary) to store the numbers we've already seen along with their indices. As we iterate through the array, for each number, we calculate the complement (the value that, when added to the current number, equals the target). Before moving on, we check if the complement already exists in the hash map. If it does, we’ve found our two numbers, and we return their indices. This approach works in linear time because checking the hash map for a complement is an O(1) operation.
 -   **Time Complexity**: O(n)
 -   **Space Complexity**: O(n)
 -   **Implementation**:

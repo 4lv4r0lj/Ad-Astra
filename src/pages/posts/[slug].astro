@@ -1,18 +1,29 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Base.astro";
+import { computeBacklinks, type BacklinkItem } from "../../utils/backlinks";
+import Backlinks from "../../components/Backlinks.astro";
 
 export async function getStaticPaths() {
     const posts = await getCollection("posts");
+    const backlinksMap = computeBacklinks(posts);
     return posts.map((post) => ({
         params: {
             slug: post.id,
         },
-        props: { post },
+        props: {
+            post,
+            backlinks: backlinksMap.get(post.id) ?? [],
+        },
     }));
 }
 
-const post: CollectionEntry<"posts"> = Astro.props.post;
+interface Props {
+    post: CollectionEntry<"posts">;
+    backlinks: BacklinkItem[];
+}
+
+const { post, backlinks } = Astro.props;
 const { Content } = await render(post);
 
 function formatDate(dateString: Date) {
@@ -79,6 +90,8 @@ import ImageLightbox from "../../components/ImageLightbox.astro";
         >
             <Content />
         </div>
+
+        <Backlinks backlinks={backlinks} />
     </article>
     <ImageLightbox />
 </Layout>

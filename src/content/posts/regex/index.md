@@ -2,7 +2,7 @@
 title: "Regular Expressions (Regex)"
 description: "A clear and practical guide to regular expressions: how they work and how to apply them to real-world text processing tasks."
 authors: ["4lv4r0lj"]
-tags: []
+tags: ["regex", "regular-expressions", "parsing", "web-security"]
 pubDate: "24 Jul 2025"
 image: "./regex.png"
 

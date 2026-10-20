@@ -1,0 +1,67 @@
+---
+import type { BacklinkItem } from "../utils/backlinks";
+
+interface Props {
+    backlinks: BacklinkItem[];
+}
+
+const { backlinks } = Astro.props;
+---
+
+{
+    backlinks.length > 0 && (
+        <section class="mt-8 flex flex-col gap-4 border-t border-indigo-400/30 pt-6">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🔗</span>
+                <h2 class="text-2xl sm:text-3xl font-semibold text-[color:var(--text-color)]">
+                    Mentioned In & Practical Examples
+                </h2>
+            </div>
+            <p class="text-sm text-gray-400">
+                Other posts and practical writeups that apply concepts covered in this guide:
+            </p>
+            <div class="flex flex-col gap-4">
+                {backlinks.map((item) => (
+                    <div class="flex flex-col gap-2 rounded-lg border border-indigo-400/40 bg-indigo-950/20 p-4 transition-colors hover:border-indigo-400">
+                        <div class="flex flex-wrap items-baseline justify-between gap-2">
+                            <a
+                                href={`${import.meta.env.BASE_URL}/posts/${item.id}`}
+                                class="text-xl font-bold text-indigo-300 hover:text-indigo-200 hover:underline"
+                            >
+                                {item.title}
+                            </a>
+                            <span class="text-xs text-gray-400">
+                                {new Date(item.pubDate).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                })}
+                            </span>
+                        </div>
+                        {item.description && (
+                            <p class="text-sm text-gray-300">{item.description}</p>
+                        )}
+                        {item.sections.length > 0 && (
+                            <div class="mt-2 flex flex-col gap-1.5">
+                                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">
+                                    Relevant Sections:
+                                </span>
+                                <div class="flex flex-wrap gap-2">
+                                    {item.sections.map((sec) => (
+                                        <a
+                                            href={`${import.meta.env.BASE_URL}/posts/${item.id}#${sec.slug}`}
+                                            class="inline-flex items-center gap-1 rounded-md border border-indigo-400/40 bg-indigo-900/30 px-2.5 py-1 text-xs text-indigo-200 transition-all hover:border-indigo-300 hover:bg-indigo-800/40 hover:text-white"
+                                        >
+                                            <span class="text-indigo-400">§</span>
+                                            <span>{sec.title}</span>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </section>
+    )
+}
