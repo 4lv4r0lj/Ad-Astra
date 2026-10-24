@@ -2,7 +2,7 @@
 title: "LeetCode: #1 Two Sum"
 description: "Solving the classic Two Sum leetcode problem in Python, exploring various strategies."
 authors: ["4lv4r0lj"]
-tags: ["leetcode", "python", "array", "hash table", "two pointers", "sorting"]
+tags: ["leetcode", "python", "array", "hash-table", "two-pointers", "sorting"]
 pubDate: "13 Oct 2024"
 image: "./leetcode-1-two-sum.png"
 ---

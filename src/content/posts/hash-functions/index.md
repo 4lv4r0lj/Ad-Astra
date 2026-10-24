@@ -2,7 +2,7 @@
 title: "Hash Functions"
 description: "An in-depth guide to cryptographic hash functions, their essential security properties, use cases and practical examples."
 authors: ["4lv4r0lj"]
-tags: ["hash-function", "cryptography", "data-integrity", "python", "security"]
+tags: ["hash-function", "cryptography", "authentication", "data-integrity", "hash-table", "python"]
 pubDate: "27 Sep 2025"
 image: "./hash-functions.png"
 ---

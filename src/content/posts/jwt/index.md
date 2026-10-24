@@ -2,7 +2,7 @@
 title: "JSON Web Token (JWT)"
 description: "A straightforward guide to understanding what JWTs are, how they work, and how to create and verify them in Python."
 authors: ["4lv4r0lj"]
-tags: ["jwt", "authentication", "web-security", "python"]
+tags: ["jwt", "authentication", "cryptography", "web-security", "path-traversal", "python"]
 pubDate: "12 Oct 2025"
 image: "./jwt.png"
 ---
