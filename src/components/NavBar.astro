@@ -4,7 +4,7 @@ import Search from "./Search.astro";
 ---
 
 <nav
-    class="sticky inset-x-0 bottom-0 z-30 flex max-h-20 min-h-16 flex-grow items-center justify-evenly rounded-t-xl md:rounded-none bg-[#0e0e1a]/85 backdrop-blur-md border-t border-indigo-500/20 md:border-t-0 md:relative md:inset-x-auto md:bottom-auto md:bg-transparent md:backdrop-blur-none md:gap-12 md:justify-center my-2"
+    class="fixed inset-x-0 bottom-0 z-30 flex max-h-20 min-h-16 flex-grow items-center justify-evenly rounded-t-xl bg-[#0e0e1a]/90 backdrop-blur-md border-t border-indigo-500/20 md:static md:inset-auto md:bottom-auto md:rounded-none md:border-t-0 md:bg-transparent md:backdrop-blur-none md:gap-12 md:justify-center my-2"
     aria-label="Main Navigation"
 >
     <NavLink href={`${import.meta.env.BASE_URL}/about`}>About</NavLink>

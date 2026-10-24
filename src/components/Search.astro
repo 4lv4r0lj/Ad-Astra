@@ -5,14 +5,14 @@ import searcher from "../assets/webp/searcher.webp";
 
 <button
     id="search-button"
-    class="-mt-3 size-16 cursor-pointer transition-transform duration-200 hover:scale-110 focus:outline-none"
+    class="-mt-3 size-16 cursor-pointer rounded-full transition-transform duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
     aria-label="Search blog"
 >
     <Image
         class="size-full object-contain"
         src={searcher}
         alt="Search icon"
-        id="logo"
+        id="search-icon-img"
     />
 </button>
 
@@ -35,7 +35,7 @@ import searcher from "../assets/webp/searcher.webp";
                     id="search-input"
                     type="search"
                     placeholder="Search concepts, guides, tags..."
-                    class="h-14 w-full rounded-xl border-2 border-indigo-400/60 bg-indigo-950/30 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 font-404 text-lg"
+                    class="h-14 w-full rounded-xl border-2 border-indigo-400/60 bg-indigo-950/30 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus-visible:ring-2 focus-visible:ring-cyan-400 font-404 text-lg"
                     autocomplete="off"
                     spellcheck="false"
                 />
@@ -43,7 +43,7 @@ import searcher from "../assets/webp/searcher.webp";
             <button
                 id="close-modal"
                 type="button"
-                class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-2 border-indigo-400/60 bg-indigo-950/30 text-2xl font-bold text-gray-300 hover:border-cyan-400 hover:text-cyan-300 transition-all cursor-pointer font-404"
+                class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-2 border-indigo-400/60 bg-indigo-950/30 text-2xl font-bold text-gray-300 hover:border-cyan-400 hover:text-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 transition-all cursor-pointer font-404"
                 aria-label="Close search"
             >
                 &times;
@@ -61,7 +61,6 @@ import searcher from "../assets/webp/searcher.webp";
 </div>
 
 <script>
-    import DomPurify from "dompurify";
     import Fuse from "fuse.js";
     import type { FuseResult } from "fuse.js";
 
@@ -94,50 +93,66 @@ import searcher from "../assets/webp/searcher.webp";
         const searchResults = document.getElementById("search-results");
         if (!searchResults) return;
 
+        searchResults.innerHTML = "";
+
         if (results.length === 0) {
-            searchResults.innerHTML = `<li class="col-span-full list-none text-gray-400 py-12 text-center w-full font-404 text-base">No results found...</li>`;
+            const emptyLi = document.createElement("li");
+            emptyLi.className = "col-span-full list-none text-gray-400 py-12 text-center w-full font-404 text-base";
+            emptyLi.textContent = "No results found...";
+            searchResults.appendChild(emptyLi);
             return;
         }
 
         const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
-        const html = results
-            .slice(0, 8)
-            .map((res) => {
-                const item = res.item;
-                const dateFormatted = new Date(item.pubDate).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                });
-                const tagsHtml = (item.tags || [])
-                    .slice(0, 3)
-                    .map((t) => `<span class="rounded-lg bg-indigo-400/85 px-2.5 py-1 text-sm font-semibold text-[#0e0e1a] font-404">${t}</span>`)
-                    .join(" ");
+        const fragment = document.createDocumentFragment();
 
-                return `
-                <li class="w-full list-none">
-                    <a
-                        href="${baseUrl}/posts/${item.slug}"
-                        class="flex flex-col gap-2 rounded-xl border-2 border-indigo-400/70 bg-indigo-950/20 p-4 shadow-md transition-all hover:border-cyan-400 font-404 h-full"
-                    >
-                        <div class="flex flex-wrap gap-2">
-                            ${tagsHtml}
-                        </div>
-                        <h3 class="text-xl text-white hover:text-cyan-300 transition-colors">
-                            ${item.title}
-                        </h3>
-                        <p class="text-sm text-gray-300 line-clamp-2 leading-relaxed">
-                            ${item.description || ""}
-                        </p>
-                        <p class="text-xs text-gray-400 pt-1 mt-auto">
-                            Published on ${dateFormatted}
-                        </p>
-                    </a>
-                </li>`;
-            })
-            .join("");
+        for (const res of results.slice(0, 8)) {
+            const item = res.item;
+            const li = document.createElement("li");
+            li.className = "w-full list-none";
 
-        searchResults.innerHTML = DomPurify.sanitize(html);
+            const a = document.createElement("a");
+            a.href = `${baseUrl}/posts/${item.slug}`;
+            a.className = "flex flex-col gap-2 rounded-xl border-2 border-indigo-400/70 bg-indigo-950/20 p-4 shadow-md transition-all hover:border-cyan-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 font-404 h-full";
+
+            const tagsContainer = document.createElement("div");
+            tagsContainer.className = "flex flex-wrap gap-2";
+            for (const tag of (item.tags || []).slice(0, 3)) {
+                const tagSpan = document.createElement("span");
+                tagSpan.className = "rounded-lg bg-indigo-400/85 px-2.5 py-1 text-sm font-semibold text-[#0e0e1a] font-404";
+                tagSpan.textContent = tag;
+                tagsContainer.appendChild(tagSpan);
+            }
+            a.appendChild(tagsContainer);
+
+            const h3 = document.createElement("h3");
+            h3.className = "text-xl text-white hover:text-cyan-300 transition-colors";
+            h3.textContent = item.title;
+            a.appendChild(h3);
+
+            if (item.description) {
+                const pDesc = document.createElement("p");
+                pDesc.className = "text-sm text-gray-300 line-clamp-2 leading-relaxed";
+                pDesc.textContent = item.description;
+                a.appendChild(pDesc);
+            }
+
+            const pDate = document.createElement("p");
+            pDate.className = "text-xs text-gray-400 pt-1 mt-auto";
+            const dateFormatted = new Date(item.pubDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                timeZone: "UTC",
+            });
+            pDate.textContent = `Published on ${dateFormatted}`;
+            a.appendChild(pDate);
+
+            li.appendChild(a);
+            fragment.appendChild(li);
+        }
+
+        searchResults.appendChild(fragment);
     }
 
     function initSearch() {

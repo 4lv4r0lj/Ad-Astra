@@ -9,7 +9,7 @@ image: "./leetcode-1-two-sum.png"
 
 This leetcode exercise can be found at https://leetcode.com/problems/two-sum
 
-# Description
+## Description
 
 Given an array of integers `nums` and an integer `target`, return `indices` of the two numbers such that they add up to `target`.
 
@@ -17,9 +17,9 @@ You may assume that each input would have exactly one solution, and you may not 
 
 You can return the answer in any order.
 
-# Examples
+## Examples
 
-## Example 1
+### Example 1
 
 -   **Input**: `nums = [2, 7, 11, 15], target = 9`
 

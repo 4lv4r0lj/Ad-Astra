@@ -18,8 +18,6 @@ async function getPosts() {
             description: post.data.description,
             tags: post.data.tags,
             pubDate: post.data.pubDate,
-            updatedDate: post.data.updatedDate,
-            image: post.data.image,
             content: cleanContent,
         };
     });
@@ -34,4 +32,5 @@ export async function GET() {
         },
     });
 }
+
 

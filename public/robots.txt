@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://4kreed.github.io/Ad-Astra/sitemap-index.xml
+Sitemap: https://4lv4r0lj.github.io/Ad-Astra/sitemap-index.xml
+

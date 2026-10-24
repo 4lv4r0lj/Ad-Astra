@@ -17,9 +17,21 @@ const { post }: Props = Astro.props;
     <div class="mx-auto flex w-full [&>img]:aspect-video [&>img]:rounded-lg [&>img]:object-cover overflow-hidden">
         {
             post.data.image ? (
-                <Image src={post.data.image} alt={post.data.title} class="transition-transform duration-300 hover:scale-105" />
+                <Image
+                    src={post.data.image}
+                    alt={post.data.title}
+                    widths={[360, 720]}
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    class="transition-transform duration-300 hover:scale-105"
+                />
             ) : (
-                <Image src={heroImage} alt={post.data.title} class="transition-transform duration-300 hover:scale-105" />
+                <Image
+                    src={heroImage}
+                    alt={post.data.title}
+                    widths={[360, 720]}
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    class="transition-transform duration-300 hover:scale-105"
+                />
             )
         }
     </div>
@@ -44,6 +56,7 @@ const { post }: Props = Astro.props;
                 year: "numeric",
                 month: "short",
                 day: "numeric",
+                timeZone: "UTC",
             })}
         </p>
         {
@@ -54,11 +67,13 @@ const { post }: Props = Astro.props;
                         year: "numeric",
                         month: "short",
                         day: "numeric",
+                        timeZone: "UTC",
                     })}
                 </p>
             )
         }
     </div>
 </a>
+
 
 

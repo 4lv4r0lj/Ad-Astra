@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { SITE_TITLE } from "../consts";
 
 export interface ArticleData {
     pubDate: Date;
@@ -56,6 +57,12 @@ const schema = articleData
     rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>"
 />
+<link
+    rel="alternate"
+    type="application/rss+xml"
+    title={SITE_TITLE}
+    href={new URL(`${import.meta.env.BASE_URL}/rss.xml`, Astro.site)}
+/>
 
 <!-- Font preloads (100% self-hosted) -->
 <link
@@ -82,18 +89,18 @@ const schema = articleData
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={articleData ? "article" : "website"} />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={Astro.url} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, Astro.url)} />
 
 {
     articleData && (
@@ -103,3 +110,4 @@ const schema = articleData
 
 <!-- Schema.org JSON-LD -->
 <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+

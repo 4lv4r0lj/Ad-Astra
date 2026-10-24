@@ -1,9 +1,0 @@
-* [Graudit](https://github.com/wireghoul/graudit): A lightweight, grep-based static code analysis tool that scans source files for potential security vulnerabilities using regex signature databases.
-* **Hashcat**: GPU-accelerated password cracker. Used for cracking password hashes by brute-force, dictionary, mask, or hybrid attacks. Extremely fast thanks to GPU support. Supports hundreds of hash algorithms (MD5, SHA families, bcrypt, etc.).
-* **John the Ripper**: CPU-based password cracker. Similar to Hashcat but more flexible in scripting and wordlist management. Often used in CTFs and pentesting for cracking password hashes. Good for smaller datasets or when GPU isn’t available.
-* **hashid**: Hash identifier. Used for identifying the possible algorithm of a given hash string (e.g., distinguishing whether a hash is MD5, SHA-1, SHA-256, etc.).
-* **HashPump**: Hash length extension attack tool. Used for exploiting certain algorithms (like MD5 or SHA-1) that are vulnerable to length extension attacks. Commonly used in CTFs to forge HMAC-like constructs.
-* **md5sum / sha256sum (Linux utilities)**: Command-line utilities. Used for generating and verifying file hashes. Typically used for integrity checks when downloading software.
-* **CyberChef (Web Tool)**: Web-based cryptography and encoding toolkit. Used for generating, decoding, and transforming hashes (MD5, SHA variants, etc.). Handy for quick experiments or conversions in-browser.
-* **CrackStation**: Online hash cracking service. Used for checking if a given hash (MD5, SHA1, SHA256, etc.) corresponds to a known string. Backed by a massive database of precomputed hashes (dictionary + common passwords).
-* **Hashes.com**: Online collaborative hash lookup service. Used for searching for known plaintexts corresponding to a hash. Also allows community contributions, so its database is continuously growing.

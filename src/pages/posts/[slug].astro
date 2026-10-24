@@ -7,7 +7,7 @@ import TableOfContents from "../../components/TableOfContents.astro";
 import ReadingProgress from "../../components/ReadingProgress.astro";
 import ImageLightbox from "../../components/ImageLightbox.astro";
 import { getReadingStats } from "../../utils/readingTime";
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import heroImage from "../../assets/webp/hero-image.webp";
 
 export async function getStaticPaths() {
@@ -34,10 +34,16 @@ const { post, backlinks } = Astro.props;
 const { Content, headings } = await render(post);
 const readingStats = getReadingStats(post.body || "");
 
+const optimizedImage = post.data.image
+    ? await getImage({ src: post.data.image, format: "webp", width: 1200 })
+    : await getImage({ src: heroImage, format: "webp", width: 1200 });
+const ogImage = optimizedImage.src;
+
 const formattedPubDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC",
 });
 
 const formattedUpdatedDate = post.data.updatedDate
@@ -45,6 +51,7 @@ const formattedUpdatedDate = post.data.updatedDate
           year: "numeric",
           month: "long",
           day: "numeric",
+          timeZone: "UTC",
       })
     : null;
 
@@ -57,7 +64,7 @@ const motivationalQuote = quoteMatch ? quoteMatch[1].trim() : null;
 <Layout
     title={`${post.data.title} - Ad Astra`}
     description={post.data.description}
-    image={post.data.image?.src}
+    image={ogImage}
     articleData={{
         pubDate: post.data.pubDate,
         author: post.data.authors[0] || "Ad Astra",
@@ -73,12 +80,20 @@ const motivationalQuote = quoteMatch ? quoteMatch[1].trim() : null;
                         <Image
                             src={post.data.image}
                             alt={post.data.title}
+                            loading="eager"
+                            fetchpriority="high"
+                            widths={[672, 1344]}
+                            sizes="(max-width: 768px) 100vw, 672px"
                             class="aspect-video w-full max-w-2xl cursor-zoom-in object-cover rounded-lg"
                         />
                     ) : (
                         <Image
                             src={heroImage}
                             alt={post.data.title}
+                            loading="eager"
+                            fetchpriority="high"
+                            widths={[672, 1344]}
+                            sizes="(max-width: 768px) 100vw, 672px"
                             class="aspect-video w-full max-w-2xl cursor-zoom-in object-cover rounded-lg"
                         />
                     )
@@ -106,11 +121,12 @@ const motivationalQuote = quoteMatch ? quoteMatch[1].trim() : null;
             <div class="flex flex-wrap gap-2 pt-1">
                 {
                     post.data.tags.map((tag) => (
-                        <span class="rounded-lg bg-indigo-400/80 px-2.5 py-1 text-sm font-semibold text-[#0e0e1a] transition-colors hover:bg-cyan-300">
-                            <a href={`${import.meta.env.BASE_URL}/tags/${tag}`}>
-                                {tag}
-                            </a>
-                        </span>
+                        <a
+                            href={`${import.meta.env.BASE_URL}/tags/${tag}`}
+                            class="rounded-lg bg-indigo-400/80 px-2.5 py-1 text-sm font-semibold text-[#0e0e1a] transition-colors hover:bg-cyan-300"
+                        >
+                            {tag}
+                        </a>
                     ))
                 }
             </div>
