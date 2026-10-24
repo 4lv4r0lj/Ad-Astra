@@ -8,16 +8,19 @@
     --font-404: "Nova Square", sans-serif;
     --font-chakra: "Chakra Petch", sans-serif;
 
-    --ease-custom-bezier: cubic-bezier(0.9, 0, 0.3, 0.9);
+    --ease-custom-bezier: cubic-bezier(0.16, 1, 0.3, 1);
 
-    --animate-float: floatAnimation 4s ease-in-out infinite;
+    --animate-float: floatAnimation 5s ease-in-out infinite;
     --animate-moveStars: moveStars linear infinite;
 }
 
 @keyframes floatAnimation {
-    0% { transform: scaleX(-1) translateY(0); }
-    50% { transform: scaleX(-1) translateY(-20px); }
-    100% { transform: scaleX(-1) translateY(0); }
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
 }
 
 @keyframes moveStars {
@@ -32,32 +35,13 @@
 @font-face {
     font-family: "Adam CG Pro";
     src: url("../assets/fonts/adam-cg-pro.otf") format("opentype");
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Nova Square";
     src: url("../assets/fonts/NovaSquare-Regular.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Chakra Petch";
-    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Bold.ttf") format("truetype");
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "Chakra Petch";
-    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-BoldItalic.ttf") format("truetype");
-    font-weight: 700;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: "Chakra Petch";
-    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Italic.ttf") format("truetype");
-    font-weight: 400;
-    font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
@@ -65,6 +49,7 @@
     src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Light.ttf") format("truetype");
     font-weight: 300;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -72,20 +57,7 @@
     src: url("../assets/fonts/Chakra_Petch/ChakraPetch-LightItalic.ttf") format("truetype");
     font-weight: 300;
     font-style: italic;
-}
-
-@font-face {
-    font-family: "Chakra Petch";
-    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Medium.ttf") format("truetype");
-    font-weight: 500;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "Chakra Petch";
-    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-MediumItalic.ttf") format("truetype");
-    font-weight: 500;
-    font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
@@ -93,6 +65,31 @@
     src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Chakra Petch";
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Italic.ttf") format("truetype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Chakra Petch";
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Chakra Petch";
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-MediumItalic.ttf") format("truetype");
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
@@ -100,6 +97,7 @@
     src: url("../assets/fonts/Chakra_Petch/ChakraPetch-SemiBold.ttf") format("truetype");
     font-weight: 600;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -107,15 +105,138 @@
     src: url("../assets/fonts/Chakra_Petch/ChakraPetch-SemiBoldItalic.ttf") format("truetype");
     font-weight: 600;
     font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Chakra Petch";
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Chakra Petch";
+    src: url("../assets/fonts/Chakra_Petch/ChakraPetch-BoldItalic.ttf") format("truetype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
 }
 
 @layer base {
     :root {
-        --text-color: black;
-        --background-color: white;
-    }
-    html.dark {
-        --text-color: white;
+        --text-color: #ffffff;
         --background-color: #0e0e1a;
+        --card-border-purple: rgba(129, 140, 248, 0.5);
+        --card-border-cyan: rgba(56, 189, 248, 0.7);
+    }
+
+    html {
+        color-scheme: dark;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        color: var(--text-color);
+        background-color: var(--background-color);
+        min-height: 100vh;
+        overflow-x: clip;
+    }
+
+    /* Cosmic Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #0e0e1a;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: rgba(129, 140, 248, 0.4);
+        border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(56, 189, 248, 0.7);
     }
 }
+
+@utility text-highlight {
+    background-image: linear-gradient(135deg, #818cf8 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+}
+
+/* Typography Overrides for Markdown Content */
+.prose {
+    max-width: 100% !important;
+    color: #e2e8f0;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+    color: #ffffff;
+    scroll-margin-top: 5.5rem;
+}
+
+.prose h2 {
+    border-bottom: 1px solid rgba(129, 140, 248, 0.3);
+    padding-bottom: 0.5rem;
+    margin-top: 2.5rem;
+}
+
+.prose a {
+    color: #38bdf8;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(56, 189, 248, 0.4);
+    transition: all 0.2s ease;
+}
+
+.prose a:hover {
+    color: #a5b4fc;
+    text-decoration-color: #a5b4fc;
+}
+
+.prose blockquote {
+    border-left-color: #818cf8;
+    border-left-width: 3px;
+    background: rgba(99, 102, 241, 0.08);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    font-style: italic;
+    color: #cbd5e1;
+}
+
+.prose table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid rgba(129, 140, 248, 0.3);
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    display: block;
+    margin: 1.5rem 0;
+}
+
+.prose th {
+    background: rgba(99, 102, 241, 0.2);
+    color: #e0e7ff;
+    font-family: var(--font-404);
+    font-size: 0.9em;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(129, 140, 248, 0.3);
+}
+
+.prose td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(129, 140, 248, 0.15);
+    color: #cbd5e1;
+}
+
+.prose tr:last-child td {
+    border-bottom: none;
+}
+

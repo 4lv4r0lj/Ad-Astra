@@ -11,7 +11,7 @@ import profilePicture from "../assets/webp/profile-picture.webp";
 >
     <!-- Parent container -->
     <div
-        class="mx-auto flex h-fit w-5/6 flex-col items-center gap-8 text-pretty font-404 text-[color:var(--text-color)] lg:text-lg"
+        class="mx-auto flex h-fit w-full sm:w-5/6 flex-col items-center gap-8 text-pretty font-404 text-[color:var(--text-color)] lg:text-lg my-4"
     >
         <!-- First row with short introduction and profile picture -->
         <div
@@ -22,50 +22,30 @@ import profilePicture from "../assets/webp/profile-picture.webp";
                     My name is Alvaro Lopez (<a
                         href="https://github.com/4lv4r0lj"
                         target="_blank"
-                        rel="noopener">@4lv4r0lj</a
-                    >), I'm a <span class="text-indigo-400/90"
-                        >security software engineer</span
-                    > on a continuous journey of learning and self-improvement.
+                        rel="noopener"
+                        class="text-cyan-300 hover:underline">@4lv4r0lj</a
+                    >), I'm a <span class="text-highlight">security software engineer</span> on a continuous journey of learning and self-improvement.
                 </p>
             </div>
             <a href="https://github.com/4lv4r0lj" target="_blank" rel="noopener">
                 <Image
-                    class="size-28 min-w-28 rounded-2xl border-2 border-indigo-400/50 object-cover"
+                    class="size-28 min-w-28 rounded-2xl border-2 border-indigo-400/70 hover:border-cyan-400 transition-colors object-cover"
                     src={profilePicture}
                     alt="4lv4r0lj's logo"
                 />
             </a>
         </div>
 
-        <!-- Rest of the content as diferent rows -->
-        <div class="flex flex-col gap-6 md:w-5/6">
+        <!-- Rest of the content as different rows -->
+        <div class="flex flex-col gap-6 md:w-5/6 text-slate-200">
             <p>
-                I created Ad Astra, <span class="text-indigo-400/90"
-                    >an open-source, example-driven encyclopedia</span
-                >
-                as part of this journey. Tired of learning concepts that I didn't
-                practice enough and eventually forgot, I decided to create this blog
-                where, from now on, every new concept I learn will be thoroughly
-                documented, and I'll create <span class="text-indigo-400/90"
-                    >simple examples</span
-                > to help internalize them. I strongly believe this is the best way
-                to learn.
+                I created Ad Astra, <span class="text-highlight">an open-source, example-driven encyclopedia</span> as part of this journey. Tired of learning concepts that I didn't practice enough and eventually forgot, I decided to create this blog where, from now on, every new concept I learn will be thoroughly documented, and I'll create <span class="text-highlight">simple examples</span> to help internalize them. I strongly believe this is the best way to learn.
             </p>
             <p>
-                While the motivation behind creating Ad Astra was to improve the
-                way I learn technical subjects, the content of this blog is <span
-                    class="text-indigo-400/90"
-                    >not limited to technical topics</span
-                >. It is open to any kind of concept from any field, as long as
-                it is well-documented and includes practical examples.
+                While the motivation behind creating Ad Astra was to improve the way I learn technical subjects, the content of this blog is <span class="text-highlight">not limited to technical topics</span>. It is open to any kind of concept from any field, as long as it is well-documented and includes practical examples.
             </p>
             <p>
-                I want this encyclopedia to be <span class="text-indigo-400/90"
-                    >open and collaborative</span
-                >. Anyone can contribute to it. The best way to do so is to open
-                a pull request on GitHub and add a post of any topic with
-                examples and references. Don't forget to add yourself as a
-                contributor in the list below!
+                I want this encyclopedia to be <span class="text-highlight">open and collaborative</span>. Anyone can contribute to it. The best way to do so is to open a pull request on GitHub and add a post of any topic with examples and references. Don't forget to add yourself as a contributor in the list below!
             </p>
         </div>
 

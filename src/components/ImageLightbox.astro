@@ -24,7 +24,7 @@
             id="lightbox-img"
             src=""
             alt=""
-            class="max-h-[88vh] max-w-[92vw] rounded-lg object-contain shadow-2xl transition-all duration-200"
+            class="max-h-[88vh] max-w-[92vw] rounded-xl border border-indigo-500/30 object-contain shadow-[0_0_50px_rgba(99,102,241,0.35)] transition-all duration-200"
         />
         <figcaption
             id="lightbox-caption"
@@ -109,15 +109,14 @@
             }
         };
 
-        // Attach click listeners to all article images (both cover and markdown content)
-        const article = document.querySelector("article");
-        if (article) {
-            const images = article.querySelectorAll("img");
-            images.forEach((img) => {
-                img.classList.add("cursor-zoom-in");
-                img.addEventListener("click", () => openLightbox(img));
-            });
-        }
+        // Attach click listeners to all post images (both header cover and markdown content)
+        const postImages = document.querySelectorAll<HTMLImageElement>(
+            "header img, article img",
+        );
+        postImages.forEach((img) => {
+            img.classList.add("cursor-zoom-in");
+            img.addEventListener("click", () => openLightbox(img));
+        });
 
         lightbox.addEventListener("click", () => {
             closeLightbox();

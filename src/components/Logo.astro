@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import whiteLogo from "../assets/webp/white-logo.webp";
 ---
 
-<a href={`${import.meta.env.BASE_URL}/`} class="flex justify-center">
+<a href={`${import.meta.env.BASE_URL}/`} class="flex justify-center my-2 transition-transform duration-300 hover:scale-[1.01]" aria-label="Ad Astra Home">
     <Image
         class="w-full max-w-5xl sm:object-top-crop md:w-4/6"
         src={whiteLogo}
@@ -11,3 +11,5 @@ import whiteLogo from "../assets/webp/white-logo.webp";
         id="logo"
     />
 </a>
+
+

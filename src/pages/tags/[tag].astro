@@ -3,11 +3,9 @@ import { getCollection } from "astro:content";
 import Layout from "../../layouts/Base.astro";
 import PostPreview from "../../components/PostPreview.astro";
 
-// If at some point there are too many tags use https://docs.astro.build/en/reference/api-reference/#paginate
-
 export async function getStaticPaths() {
     const posts = await getCollection("posts");
-    const tagSet = new Set();
+    const tagSet = new Set<string>();
     posts.forEach((post) => {
         post.data.tags.forEach((tag) => tagSet.add(tag));
     });
@@ -18,9 +16,9 @@ export async function getStaticPaths() {
 const { tag } = Astro.params;
 const posts = await getCollection("posts");
 
-const filteredPosts = posts.filter((post) =>
-    post.data.tags.includes(tag as string),
-);
+const filteredPosts = posts
+    .filter((post) => post.data.tags.includes(tag as string))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <Layout
@@ -28,15 +26,15 @@ const filteredPosts = posts.filter((post) =>
     description={`Posts tagged with "${tag}" in Ad Astra, the first open-source, example-driven encyclopedia.`}
 >
     <div
-        class="mx-auto mt-8 flex w-5/6 flex-col items-center font-404 text-[color:var(--text-color)]"
+        class="mx-auto mt-8 flex w-full flex-col items-center font-404 text-white"
     >
-        <h1 class="mb-8 text-pretty text-3xl md:hidden md:text-5xl lg:text-6xl">
-            Posts tagged with "{tag}"
+        <h1 class="mb-8 text-center text-3xl sm:text-5xl lg:text-6xl font-404 text-white">
+            Posts tagged with <span class="text-cyan-300">"{tag}"</span>
         </h1>
-        <ul class="mx-3 flex flex-wrap justify-evenly gap-4 gap-y-4">
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             {
                 filteredPosts.map((post) => (
-                    <li class="w-full md:max-w-72">
+                    <li class="w-full">
                         <PostPreview post={post} />
                     </li>
                 ))
@@ -44,3 +42,4 @@ const filteredPosts = posts.filter((post) =>
         </ul>
     </div>
 </Layout>
+

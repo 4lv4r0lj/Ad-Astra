@@ -3,10 +3,17 @@ import { getCollection, render, type CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Base.astro";
 import { computeBacklinks, type BacklinkItem } from "../../utils/backlinks";
 import Backlinks from "../../components/Backlinks.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
+import ReadingProgress from "../../components/ReadingProgress.astro";
+import ImageLightbox from "../../components/ImageLightbox.astro";
+import { getReadingStats } from "../../utils/readingTime";
+import { Image } from "astro:assets";
+import heroImage from "../../assets/webp/hero-image.webp";
 
 export async function getStaticPaths() {
     const posts = await getCollection("posts");
     const backlinksMap = computeBacklinks(posts);
+
     return posts.map((post) => ({
         params: {
             slug: post.id,
@@ -24,27 +31,31 @@ interface Props {
 }
 
 const { post, backlinks } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const readingStats = getReadingStats(post.body || "");
 
-function formatDate(dateString: Date) {
-    const dateOptions: Intl.DateTimeFormatOptions = {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-    };
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", dateOptions);
-}
+const formattedPubDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+});
 
-const formattedDate = formatDate(post.data.pubDate);
+const formattedUpdatedDate = post.data.updatedDate
+    ? new Date(post.data.updatedDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+      })
+    : null;
 
-import { Image } from "astro:assets";
-import heroImage from "../../assets/webp/hero-image.webp";
-import ImageLightbox from "../../components/ImageLightbox.astro";
+// Extract motivational sign-off from end of post body (e.g. *Embrace every challenge, climb toward the stars. Ad astra per aspera.*)
+const signoffRegex = /\*([^*]+?)(?:[.\s]*Ad astra per aspera\.?)\*/i;
+const quoteMatch = (post.body || "").match(signoffRegex);
+const motivationalQuote = quoteMatch ? quoteMatch[1].trim() : null;
 ---
 
 <Layout
-    title={post.data.title}
+    title={`${post.data.title} - Ad Astra`}
     description={post.data.description}
     image={post.data.image?.src}
     articleData={{
@@ -52,46 +63,129 @@ import ImageLightbox from "../../components/ImageLightbox.astro";
         author: post.data.authors[0] || "Ad Astra",
     }}
 >
-    <article
-        class="mx-auto mt-4 flex w-5/6 flex-col gap-4 text-pretty pb-8 font-404 text-[color:var(--text-color)] sm:mt-8 sm:gap-7"
+    <ReadingProgress />
+
+    <div class="mx-auto w-full max-w-5xl my-4 font-404">
+        <header class="mb-8 flex flex-col gap-4">
+            <div class="flex justify-center overflow-hidden rounded-lg">
+                {
+                    post.data.image ? (
+                        <Image
+                            src={post.data.image}
+                            alt={post.data.title}
+                            class="aspect-video w-full max-w-2xl cursor-zoom-in object-cover rounded-lg"
+                        />
+                    ) : (
+                        <Image
+                            src={heroImage}
+                            alt={post.data.title}
+                            class="aspect-video w-full max-w-2xl cursor-zoom-in object-cover rounded-lg"
+                        />
+                    )
+                }
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl text-white text-center sm:text-left mt-2">
+                {post.data.title}
+            </h1>
+
+            <div class="flex flex-wrap items-center gap-3 text-sm text-gray-400">
+                <span>{formattedPubDate}</span>
+                <span>&bull;</span>
+                <span class="text-cyan-300">{readingStats.text}</span>
+                {
+                    formattedUpdatedDate && (
+                        <>
+                            <span>&bull;</span>
+                            <span>Updated on {formattedUpdatedDate}</span>
+                        </>
+                    )
+                }
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-1">
+                {
+                    post.data.tags.map((tag) => (
+                        <span class="rounded-lg bg-indigo-400/80 px-2.5 py-1 text-sm font-semibold text-[#0e0e1a] transition-colors hover:bg-cyan-300">
+                            <a href={`${import.meta.env.BASE_URL}/tags/${tag}`}>
+                                {tag}
+                            </a>
+                        </span>
+                    ))
+                }
+            </div>
+        </header>
+
+        <!-- Main Content Area with Sticky ToC Sidebar -->
+        <div class="relative flex flex-col lg:flex-row gap-8 lg:gap-12 items-start w-full">
+            <article class="w-full lg:flex-1 min-w-0 font-404 text-white">
+                <div class="post-prose prose dark:prose-invert prose-code:before:content-none prose-code:after:content-none prose-img:cursor-zoom-in prose-img:rounded-lg">
+                    <Content />
+                </div>
+                <Backlinks backlinks={backlinks} />
+
+                {
+                    motivationalQuote && (
+                        <div class="mt-14 pt-6 text-center flex flex-col items-center gap-3 font-404">
+                            <div class="w-full flex items-center justify-center gap-4 my-1">
+                                <div class="h-[1px] flex-1 max-w-xs bg-gradient-to-r from-transparent via-indigo-500/50 to-cyan-400/50" />
+                                <span class="text-cyan-300 text-sm animate-pulse select-none">✦</span>
+                                <div class="h-[1px] flex-1 max-w-xs bg-gradient-to-l from-transparent via-indigo-500/50 to-cyan-400/50" />
+                            </div>
+                            <p class="text-lg sm:text-xl text-slate-200 italic max-w-xl leading-relaxed">
+                                "{motivationalQuote}"
+                            </p>
+                            <span class="font-header text-sm sm:text-base tracking-[0.25em] uppercase text-highlight mt-1">
+                                AD ASTRA PER ASPERA
+                            </span>
+                        </div>
+                    )
+                }
+            </article>
+
+            <!-- Table of Contents -->
+            <TableOfContents headings={headings} />
+        </div>
+    </div>
+
+    <!-- Floating Back to Top Button -->
+    <button
+        id="floating-back-to-top"
+        type="button"
+        class="fixed bottom-6 right-6 z-40 hidden size-11 items-center justify-center rounded-full border border-indigo-400/50 bg-[#0e0e1a]/90 text-cyan-300 shadow-lg backdrop-blur-md transition-all hover:scale-110 hover:border-cyan-400 hover:text-white cursor-pointer font-404 text-lg"
+        aria-label="Back to top"
     >
-        <div
-            class="flex justify-center [&>img]:aspect-video [&>img]:w-full [&>img]:max-w-lg [&>img]:cursor-zoom-in [&>img]:rounded-lg [&>img]:object-cover"
-        >
-            {
-                post.data.image ? (
-                    <Image src={post.data.image} alt={post.data.title} />
-                ) : (
-                    <Image src={heroImage} alt={post.data.title} />
-                )
+        ↑
+    </button>
+
+    <script>
+        function setupBackToTop() {
+            const btn = document.getElementById("floating-back-to-top");
+            if (!btn) return;
+
+            function toggleVisibility() {
+                if (window.scrollY > 400) {
+                    btn?.classList.remove("hidden");
+                    btn?.classList.add("flex");
+                } else {
+                    btn?.classList.add("hidden");
+                    btn?.classList.remove("flex");
+                }
             }
-        </div>
-        <h1 class="flex justify-center text-3xl sm:text-6xl">
-            {post.data.title}
-        </h1>
-        <p class="-my-2 whitespace-nowrap text-gray-400">
-            {formattedDate}
-        </p>
 
-        <div class="flex flex-wrap gap-2 sm:gap-4">
-            {
-                post.data.tags.map((tag) => (
-                    <span class="rounded-lg bg-indigo-400/80 px-2 py-1 text-[color:var(--background-color)] sm:px-3 sm:text-xl">
-                        <a href={`${import.meta.env.BASE_URL}/tags/${tag}`}>
-                            {tag}
-                        </a>
-                    </span>
-                ))
-            }
-        </div>
+            btn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
 
-        <div
-            class="prose dark:prose-invert prose-a:text-blue-400 prose-code:before:content-none prose-code:after:content-none prose-li:marker:text-[color:var(--text-color)] prose-img:cursor-zoom-in prose-img:rounded-lg"
-        >
-            <Content />
-        </div>
+            window.addEventListener("scroll", toggleVisibility, { passive: true });
+            toggleVisibility();
+        }
 
-        <Backlinks backlinks={backlinks} />
-    </article>
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", setupBackToTop);
+        } else {
+            setupBackToTop();
+        }
+    </script>
     <ImageLightbox />
 </Layout>

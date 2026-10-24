@@ -1,9 +1,7 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Logo from "../components/Logo.astro";
-// import ThemeToggle from "../components/ThemeToggle.astro";
 import NavBar from "../components/NavBar.astro";
-
 import type { ArticleData } from "../components/BaseHead.astro";
 
 interface Props {
@@ -22,15 +20,20 @@ const { title, description, image, articleData } = Astro.props;
         <BaseHead title={title} description={description} image={image} articleData={articleData} />
     </head>
 
-    <body class="h-full bg-[color:var(--background-color)]">
-        <div id="background" class="fixed inset-0 z-[-1] hidden dark:block">
+    <body class="min-h-full bg-[color:var(--background-color)] text-white">
+        <!-- Space Starfield Background -->
+        <div id="background" class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none" aria-hidden="true">
+            <!-- Subtle cosmic ambient gradient -->
+            <div class="absolute -top-32 left-1/4 size-96 rounded-full bg-indigo-900/15 blur-[120px]"></div>
+            <div class="absolute bottom-1/4 right-10 size-80 rounded-full bg-cyan-950/15 blur-[120px]"></div>
+
             {
                 [
-                    { size: "1px", count: 200, duration: "35s" },
-                    { size: "2px", count: 75, duration: "30s" },
+                    { size: "1px", count: 180, duration: "35s" },
+                    { size: "2px", count: 70, duration: "30s" },
                     { size: "3px", count: 15, duration: "20s" },
                 ].map(({ size, count, duration }) => {
-                    const COLORS = ["#fff", "#fff2", "#fff4", "#fff7", "#fffc"];
+                    const COLORS = ["#ffffff", "#ffffff", "#818cf8", "#38bdf8", "#c084fc", "#e0e7ff"];
                     const layer = [];
                     for (let i = 0; i < count; i++) {
                         const color = COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -41,21 +44,22 @@ const { title, description, image, articleData } = Astro.props;
                     const boxShadow = layer.join(",");
                     return (
                         <div
-                            class="absolute left-0 top-0 animate-moveStars rounded-full bg-white opacity-75"
+                            class="absolute left-0 top-0 animate-moveStars rounded-full bg-white opacity-80"
                             style={`width: ${size}; height: ${size}; box-shadow: ${boxShadow}; animation-duration: ${duration};`}
                         />
                     );
                 })
             }
         </div>
-        <div id="content" class="mx-auto flex min-h-screen max-w-5xl flex-col">
+
+        <div id="content" class="mx-auto flex min-h-screen max-w-5xl flex-col px-4 sm:px-6">
             <Logo />
-            <div
-                class="flex flex-grow flex-col md:flex-col-reverse md:justify-end"
-            >
+            <div class="flex flex-grow flex-col md:flex-col-reverse md:justify-end pb-20 md:pb-8">
                 <slot />
                 <NavBar />
             </div>
         </div>
     </body>
 </html>
+
+

@@ -10,7 +10,7 @@ import astronautFalling from "../assets/webp/astronaut-falling.webp";
 >
     <!-- Parent container -->
     <div
-        class="mt-8 flex h-full flex-grow flex-col items-center justify-center gap-28 md:mt-0 md:gap-14 lg:flex-row"
+        class="mt-8 flex h-full flex-grow flex-col items-center justify-center gap-16 md:mt-0 md:gap-14 lg:flex-row"
     >
         <!-- Text container -->
         <div
@@ -20,14 +20,14 @@ import astronautFalling from "../assets/webp/astronaut-falling.webp";
             <p class="mb-2 lg:mb-4">Lost in space?</p>
             <p class="">
                 Go <a
-                    class="text-inherit underline"
+                    class="text-cyan-300 underline underline-offset-4 hover:text-indigo-300 transition-colors"
                     href={`${import.meta.env.BASE_URL}/`}>home</a
                 >.
             </p>
         </div>
 
         <!-- Image container -->
-        <div class="w-11/12 -scale-x-100 transform animate-float md:max-w-md">
+        <div class="w-10/12 -scale-x-100 transform animate-float md:max-w-md">
             <Image
                 src={astronautFalling}
                 alt="Falling astronaut"
@@ -35,3 +35,5 @@ import astronautFalling from "../assets/webp/astronaut-falling.webp";
         </div>
     </div>
 </Layout>
+
+

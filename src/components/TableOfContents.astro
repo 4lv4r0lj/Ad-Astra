@@ -1,0 +1,146 @@
+---
+export interface HeadingItem {
+    depth: number;
+    slug: string;
+    text: string;
+}
+
+interface Props {
+    headings: HeadingItem[];
+}
+
+const { headings } = Astro.props;
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+    tocHeadings.length > 0 && (
+        <>
+            <!-- Mobile Collapsible Table of Contents -->
+            <div class="lg:hidden w-full mb-6 rounded-xl border-2 border-indigo-400/60 bg-indigo-950/20 p-4 font-404">
+                <details class="group">
+                    <summary class="flex items-center justify-between cursor-pointer text-sm text-cyan-300 select-none">
+                        <span class="flex items-center gap-2">
+                            <span>📑</span>
+                            <span>Table of Contents</span>
+                        </span>
+                        <span class="text-xs text-indigo-400 group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <ul class="mt-3 flex flex-col gap-2 pt-2 border-t border-indigo-500/20 text-xs">
+                        {tocHeadings.map((heading) => (
+                            <li class={heading.depth === 3 ? "pl-3 text-slate-300" : "font-medium text-slate-200"}>
+                                <a
+                                    href={`#${heading.slug}`}
+                                    class="hover:text-cyan-300 transition-colors py-0.5 block"
+                                >
+                                    {heading.text}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </details>
+            </div>
+
+            <!-- Desktop Sticky Floating Table of Contents -->
+            <aside
+                id="toc-container"
+                class="hidden lg:block w-64 shrink-0 font-404 sticky top-6 self-start max-h-[calc(100vh-3rem)] overflow-y-auto"
+                aria-label="Table of Contents"
+            >
+                <div class="rounded-xl border-2 border-indigo-400/60 bg-indigo-950/30 p-4 backdrop-blur-md shadow-lg">
+                    <div class="flex items-center gap-2 mb-3 pb-2 border-b border-indigo-500/30 text-cyan-300 text-xs tracking-wider uppercase">
+                        <span>📑</span>
+                        <span>Table of Contents</span>
+                    </div>
+
+                    <nav>
+                        <ul class="flex flex-col gap-1.5 text-slate-300 text-xs">
+                            {tocHeadings.map((heading) => (
+                                <li
+                                    class:list={[
+                                        "transition-colors duration-150",
+                                        heading.depth === 3 ? "pl-3 text-[11px]" : "font-medium",
+                                    ]}
+                                >
+                                    <a
+                                        href={`#${heading.slug}`}
+                                        data-toc-slug={heading.slug}
+                                        class="toc-link block py-1 hover:text-cyan-300 line-clamp-2 transition-all duration-150 border-l-2 border-transparent pl-2"
+                                    >
+                                        {heading.text}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+        </>
+    )
+}
+
+<script>
+    function setupTocHighlighting() {
+        const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc-link");
+        if (tocLinks.length === 0) return;
+
+        const headingElements: HTMLElement[] = [];
+        tocLinks.forEach((link) => {
+            const slug = link.getAttribute("data-toc-slug");
+            if (slug) {
+                const el = document.getElementById(slug);
+                if (el) headingElements.push(el);
+            }
+        });
+
+        if (headingElements.length === 0) return;
+
+        function setActiveHeading() {
+            const scrollPos = window.scrollY + 120;
+            let currentHeading: HTMLElement | null = null;
+
+            for (const el of headingElements) {
+                if (el.offsetTop <= scrollPos) {
+                    currentHeading = el;
+                } else {
+                    break;
+                }
+            }
+
+            if (!currentHeading && headingElements.length > 0) {
+                currentHeading = headingElements[0];
+            }
+
+            if (currentHeading) {
+                const activeId = currentHeading.id;
+                tocLinks.forEach((link) => {
+                    const isMatch = link.getAttribute("data-toc-slug") === activeId;
+                    if (isMatch) {
+                        link.classList.add(
+                            "text-cyan-300",
+                            "font-semibold",
+                            "border-cyan-400",
+                            "bg-indigo-950/40",
+                            "rounded-r",
+                        );
+                        link.classList.remove("text-slate-400", "border-transparent");
+                    } else {
+                        link.classList.remove(
+                            "text-cyan-300",
+                            "font-semibold",
+                            "border-cyan-400",
+                            "bg-indigo-950/40",
+                            "rounded-r",
+                        );
+                        link.classList.add("text-slate-400", "border-transparent");
+                    }
+                });
+            }
+        }
+
+        window.addEventListener("scroll", setActiveHeading, { passive: true });
+        setActiveHeading();
+    }
+
+    document.addEventListener("DOMContentLoaded", setupTocHighlighting);
+</script>

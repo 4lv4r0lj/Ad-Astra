@@ -12,43 +12,53 @@ const { post }: Props = Astro.props;
 
 <a
     href={`${import.meta.env.BASE_URL}/posts/${post.id}`}
-    class="flex flex-col gap-4 rounded-lg border-2 border-indigo-400/80 p-2 shadow-md hover:border-indigo-300 hover:font-bold"
+    class="flex flex-col gap-4 rounded-xl border-2 border-indigo-400/70 bg-indigo-950/20 p-3 shadow-md transition-all duration-200 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(56,189,248,0.25)]"
 >
-    <div class="mx-auto flex w-full [&>img]:aspect-video [&>img]:rounded-lg [&>img]:object-cover">
+    <div class="mx-auto flex w-full [&>img]:aspect-video [&>img]:rounded-lg [&>img]:object-cover overflow-hidden">
         {
             post.data.image ? (
-                <Image src={post.data.image} alt={post.data.title} />
+                <Image src={post.data.image} alt={post.data.title} class="transition-transform duration-300 hover:scale-105" />
             ) : (
-                <Image src={heroImage} alt={post.data.title} />
+                <Image src={heroImage} alt={post.data.title} class="transition-transform duration-300 hover:scale-105" />
             )
         }
     </div>
 
-    <div class="flex flex-grow flex-col gap-2 text-pretty">
-        <div class="flex w-fit flex-wrap gap-2">
+    <div class="flex flex-grow flex-col gap-2 text-pretty font-404">
+        <div class="flex w-fit flex-wrap gap-1.5">
             {
                 post.data.tags.map((tag) => (
-                    <span class="rounded-lg bg-indigo-400/80 px-2 py-1 text-[color:var(--background-color)]">
+                    <span class="rounded-lg bg-indigo-400/85 px-2 py-0.5 text-xs font-semibold text-[#0e0e1a] transition-colors hover:bg-cyan-300">
                         {tag}
                     </span>
                 ))
             }
         </div>
-        <h2 class="text-3xl">
+        <h2 class="text-2xl sm:text-3xl text-white transition-colors hover:text-cyan-300">
             {post.data.title}
         </h2>
-        <p class="text-sm text-gray-200">{post.data.description}</p>
-        <p class="text-xs text-gray-400">
+        <p class="text-sm text-gray-200 leading-relaxed">{post.data.description}</p>
+        <p class="text-xs text-gray-400 mt-auto pt-1">
             Published on{" "}
-            {new Date(post.data.pubDate).toLocaleDateString()}
+            {new Date(post.data.pubDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            })}
         </p>
         {
             post.data.updatedDate && (
                 <p class="text-xs text-gray-400">
                     Updated on{" "}
-                    {new Date(post.data.updatedDate).toLocaleDateString()}
+                    {new Date(post.data.updatedDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                    })}
                 </p>
             )
         }
     </div>
 </a>
+
+

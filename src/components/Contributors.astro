@@ -5,75 +5,81 @@ import LinkedinIcon from "./icons/LinkedinIcon.astro";
 import InstagramIcon from "./icons/InstagramIcon.astro";
 import TwitterIcon from "./icons/TwitterIcon.astro";
 import YoutubeIcon from "./icons/YoutubeIcon.astro";
+import AstronautIcon from "./icons/AstronautIcon.astro";
 
 const contributors = await getCollection("contributors");
 ---
 
-<div class="flex w-5/6 flex-col justify-center md:pb-4">
-    <h1 class="mb-8 text-center text-2xl">Contributors</h1>
-    <ul
-        class="flex flex-wrap items-center justify-center gap-8 md:justify-evenly md:gap-y-8"
-    >
+<div class="flex w-full flex-col items-center justify-center my-6 font-404">
+    <h2 class="mb-8 text-center text-2xl font-bold text-white">Contributors</h2>
+    <div class="flex flex-wrap items-center justify-center gap-6">
         {
-            contributors.map((contributor) => (
-                <li class="flex h-fit w-fit items-center justify-center gap-2 rounded-lg border-2 p-4 shadow-md">
-                    {contributor.data.picture && (
-                        <div>
+            contributors.map((contributor) => {
+                const displayName = contributor.data.name || contributor.data.nick || "Contributor";
+
+                return (
+                    <div class="flex h-fit w-fit items-center justify-center gap-4 rounded-xl border-2 border-indigo-400/60 bg-indigo-950/20 px-5 py-3.5 shadow-md transition-all duration-200 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(56,189,248,0.25)]">
+                        {contributor.data.picture ? (
                             <img
                                 src={contributor.data.picture}
-                                alt={contributor.data.name || contributor.data.nick || "Contributor"}
-                                class="size-14 min-w-14 rounded-full"
+                                alt={displayName}
+                                class="size-14 min-w-14 rounded-full border-2 border-indigo-400/70 object-cover shadow-sm"
                             />
-                        </div>
-                    )}
-
-                    <div class="flex flex-col items-center justify-center">
-                        <div class="whitespace-nowrap text-center text-sm">
-                            {contributor.data.name && contributor.data.nick ? (
-                                <p>
-                                    {contributor.data.name}
-                                    (@{contributor.data.nick})
-                                </p>
-                            ) : contributor.data.name ? (
-                                <p>{contributor.data.name}</p>
-                            ) : contributor.data.nick ? (
-                                <p>@{contributor.data.nick}</p>
-                            ) : null}
-                        </div>
-                        {contributor.data.socials && (
-                            <div class="mt-3 flex items-center gap-4 [&_*]:size-5">
-                                {contributor.data.socials?.github && (
-                                    <GithubIcon
-                                        href={contributor.data.socials.github}
-                                    />
-                                )}
-                                {contributor.data.socials?.linkedin && (
-                                    <LinkedinIcon
-                                        href={contributor.data.socials.linkedin}
-                                    />
-                                )}
-                                {contributor.data.socials?.instagram && (
-                                    <InstagramIcon
-                                        href={
-                                            contributor.data.socials.instagram
-                                        }
-                                    />
-                                )}
-                                {contributor.data.socials?.twitter && (
-                                    <TwitterIcon
-                                        href={contributor.data.socials.twitter}
-                                    />
-                                )}
-                                {contributor.data.socials?.youtube && (
-                                    <YoutubeIcon
-                                        href={contributor.data.socials.youtube}
-                                    />
-                                )}
+                        ) : (
+                            <div class="size-14 min-w-14 rounded-full border-2 border-indigo-400/70 bg-gradient-to-br from-indigo-950 to-purple-950 flex items-center justify-center text-cyan-300 shadow-sm">
+                                <AstronautIcon class="size-7" />
                             </div>
                         )}
+
+                        <div class="flex flex-col items-start justify-center">
+                            <div class="text-base font-semibold text-white">
+                                {contributor.data.name && contributor.data.nick ? (
+                                    <p>
+                                        {contributor.data.name}{" "}
+                                        <span class="text-xs text-highlight font-normal">(@{contributor.data.nick})</span>
+                                    </p>
+                                ) : (
+                                    <p>{displayName}</p>
+                                )}
+                            </div>
+
+                            {contributor.data.socials && (
+                                <div class="mt-1.5 flex items-center gap-3 text-slate-300 [&_*]:size-4">
+                                    {contributor.data.socials?.github && (
+                                        <span class="hover:text-white transition-colors">
+                                            <GithubIcon href={contributor.data.socials.github} />
+                                        </span>
+                                    )}
+                                    {contributor.data.socials?.linkedin && (
+                                        <span class="hover:text-cyan-300 transition-colors">
+                                            <LinkedinIcon href={contributor.data.socials.linkedin} />
+                                        </span>
+                                    )}
+                                    {contributor.data.socials?.instagram && (
+                                        <span class="hover:text-pink-400 transition-colors">
+                                            <InstagramIcon href={contributor.data.socials.instagram} />
+                                        </span>
+                                    )}
+                                    {contributor.data.socials?.twitter && (
+                                        <span class="hover:text-cyan-300 transition-colors">
+                                            <TwitterIcon href={contributor.data.socials.twitter} />
+                                        </span>
+                                    )}
+                                    {contributor.data.socials?.youtube && (
+                                        <span class="hover:text-red-400 transition-colors">
+                                            <YoutubeIcon href={contributor.data.socials.youtube} />
+                                        </span>
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </li>
-            ))
+                );
+            })
         }
-    </ul>
+    </div>
 </div>
+
+
+
+

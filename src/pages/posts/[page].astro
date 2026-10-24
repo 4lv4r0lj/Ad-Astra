@@ -23,41 +23,46 @@ const page = Astro.props.page;
     description="Explore all blog posts in Ad Astra, the first open-source, example-driven encyclopedia."
 >
     <div
-        class="mt-8 flex h-fit flex-col items-center gap-4 font-404 text-[color:var(--text-color)]"
+        class="mt-8 flex h-fit flex-col items-center gap-6 font-404 text-white"
     >
-        <h1 class="text-4xl md:hidden md:text-5xl lg:text-6xl">Posts</h1>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-404">Posts</h1>
         <ul
-            class="flex w-5/6 flex-grow flex-col flex-wrap justify-evenly gap-4 md:flex-row"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full"
         >
             {
                 page.data.map((post) => (
-                    <li class="w-full md:max-w-72">
+                    <li class="w-full">
                         <PostPreview post={post} />
                     </li>
                 ))
             }
         </ul>
 
-        <nav class="mt-2 flex">
+        <nav class="mt-6 flex items-center gap-4 text-base font-404">
             {
                 page.currentPage > 1 && (
                     <a
                         href={`${import.meta.env.BASE_URL}/posts/${page.currentPage - 1}`}
+                        class="text-indigo-400 hover:text-cyan-300 transition-colors"
                     >
-                        &lt;&nbsp;&nbsp;
+                        &lt; Previous
                     </a>
                 )
             }
-            <p>{page.currentPage} / {page.lastPage}</p>
+            <span class="rounded-lg border border-indigo-400/40 bg-indigo-950/30 px-3 py-1 text-sm text-gray-300">
+                {page.currentPage} / {page.lastPage}
+            </span>
             {
                 page.currentPage < page.lastPage && (
                     <a
                         href={`${import.meta.env.BASE_URL}/posts/${page.currentPage + 1}`}
+                        class="text-indigo-400 hover:text-cyan-300 transition-colors"
                     >
-                        &nbsp;&nbsp;&gt;
+                        Next &gt;
                     </a>
                 )
             }
         </nav>
     </div>
 </Layout>
+

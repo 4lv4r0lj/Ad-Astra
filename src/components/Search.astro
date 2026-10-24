@@ -3,42 +3,60 @@ import { Image } from "astro:assets";
 import searcher from "../assets/webp/searcher.webp";
 ---
 
-<button id="search-button" class="-mt-3 size-16">
+<button
+    id="search-button"
+    class="-mt-3 size-16 cursor-pointer transition-transform duration-200 hover:scale-110 focus:outline-none"
+    aria-label="Search blog"
+>
     <Image
-        class=""
+        class="size-full object-contain"
         src={searcher}
-        alt="Ad-Astra logo"
+        alt="Search icon"
         id="logo"
     />
 </button>
 
 <div
     id="search-modal"
-    class="fixed inset-0 z-10 hidden items-center justify-center bg-black/95"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-md p-4 transition-all duration-200"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Search"
 >
     <div
-        class="relative flex max-h-[90vh] w-10/12 flex-col overflow-scroll rounded border-2 border-white p-8 shadow-lg"
+        class="relative flex max-h-[85vh] w-11/12 max-w-4xl flex-col overflow-hidden rounded-xl border-2 border-indigo-400/80 bg-[#0e0e1a]/95 p-6 shadow-2xl font-404"
         id="search-content"
     >
-        <button
-            id="close-modal"
-            class="absolute right-4 top-1 text-3xl font-bold text-white"
-        >
-            &times;
-        </button>
-        <input
-            id="search-input"
-            type="search"
-            placeholder="Enter a search term..."
-            required
-            min="2"
-            class="mx-auto flex h-16 w-11/12 rounded border bg-transparent p-4 text-white"
-        />
-        <ul
-            id="search-results"
-            class="mx-auto mt-8 flex w-full flex-wrap items-center justify-evenly gap-x-5 gap-y-10 font-404 text-white"
-        >
-        </ul>
+        <!-- Modal Top Bar: Search Input and Close Button aligned cleanly side-by-side -->
+        <div class="flex items-center gap-3 w-full">
+            <div class="relative flex-1 flex items-center">
+                <span class="absolute left-4 text-indigo-400 pointer-events-none text-lg select-none">🔍</span>
+                <input
+                    id="search-input"
+                    type="search"
+                    placeholder="Search concepts, guides, tags..."
+                    class="h-14 w-full rounded-xl border-2 border-indigo-400/60 bg-indigo-950/30 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 font-404 text-lg"
+                    autocomplete="off"
+                    spellcheck="false"
+                />
+            </div>
+            <button
+                id="close-modal"
+                type="button"
+                class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-2 border-indigo-400/60 bg-indigo-950/30 text-2xl font-bold text-gray-300 hover:border-cyan-400 hover:text-cyan-300 transition-all cursor-pointer font-404"
+                aria-label="Close search"
+            >
+                &times;
+            </button>
+        </div>
+
+        <div class="mt-6 flex-1 overflow-y-auto max-h-[60vh] pr-1">
+            <ul
+                id="search-results"
+                class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full font-404 text-white list-none p-0"
+            >
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -47,162 +65,178 @@ import searcher from "../assets/webp/searcher.webp";
     import Fuse from "fuse.js";
     import type { FuseResult } from "fuse.js";
 
-    let SEARCH_DATA: any[] | null = null;
-    let FUSE_INSTANCE: Fuse<any> | null = null;
+    interface SearchItem {
+        title: string;
+        slug: string;
+        description: string;
+        tags: string[];
+        pubDate: string;
+        content: string;
+    }
+
+    let SEARCH_DATA: SearchItem[] | null = null;
+    let FUSE_INSTANCE: Fuse<SearchItem> | null = null;
+
     const FUSE_OPTIONS = {
         includeScore: true,
         shouldSort: true,
-        threshold: 0.5,
+        threshold: 0.45,
         keys: [
-            { name: "title", weight: 1 },
-            { name: "slug", weight: 0.75 },
-            { name: "description", weight: 0.5 },
-            { name: "content", weight: 0.25 },
+            { name: "title", weight: 1.0 },
+            { name: "tags", weight: 0.8 },
+            { name: "description", weight: 0.6 },
+            { name: "content", weight: 0.35 },
+            { name: "slug", weight: 0.3 },
         ],
     };
 
-    const searchResults = document.getElementById("search-results");
+    function renderResults(results: FuseResult<SearchItem>[]) {
+        const searchResults = document.getElementById("search-results");
+        if (!searchResults) return;
 
-    const toggleModal = () => {
-        const searchModal = document.getElementById("search-modal");
-        const searchInput = document.getElementById(
-            "search-input",
-        ) as HTMLInputElement;
-        let isOpen = searchModal?.classList.contains("flex");
-
-        searchModal?.classList.toggle("hidden");
-        searchModal?.classList.toggle("flex");
-        if (!isOpen) {
-            searchInput?.focus();
-        } else {
-            if (searchInput) {
-                searchInput.value = "";
-            }
+        if (results.length === 0) {
+            searchResults.innerHTML = `<li class="col-span-full list-none text-gray-400 py-12 text-center w-full font-404 text-base">No results found...</li>`;
+            return;
         }
-        if (searchResults) {
-            searchResults.innerHTML = "";
-        }
-    };
 
-    function displayResults(searchResult: FuseResult<any>[]) {
-        return searchResult
-            .map((result: FuseResult<any>) => {
-                const {
-                    title,
-                    slug,
-                    description,
-                    tags,
-                    pubDate,
-                    updatedDate,
-                    image,
-                } = result.item;
-                const imageUrl = image?.src ? image.src : document.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+        const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+        const html = results
+            .slice(0, 8)
+            .map((res) => {
+                const item = res.item;
+                const dateFormatted = new Date(item.pubDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                });
+                const tagsHtml = (item.tags || [])
+                    .slice(0, 3)
+                    .map((t) => `<span class="rounded-lg bg-indigo-400/85 px-2.5 py-1 text-sm font-semibold text-[#0e0e1a] font-404">${t}</span>`)
+                    .join(" ");
+
                 return `
-                <li class="md:max-w-72">
+                <li class="w-full list-none">
                     <a
-                        href="${import.meta.env.BASE_URL}/posts/${slug}"
-                        class="flex flex-col gap-4 rounded-lg border-2 border-indigo-400/80 p-2 shadow-md hover:border-indigo-300 hover:font-bold"
+                        href="${baseUrl}/posts/${item.slug}"
+                        class="flex flex-col gap-2 rounded-xl border-2 border-indigo-400/70 bg-indigo-950/20 p-4 shadow-md transition-all hover:border-cyan-400 font-404 h-full"
                     >
-                        <div class="mx-auto flex w-full [&>img]:aspect-video [&>img]:rounded-lg [&>img]:object-cover">
-                            <img src="${imageUrl}" />
+                        <div class="flex flex-wrap gap-2">
+                            ${tagsHtml}
                         </div>
-                        <div class="flex flex-grow flex-col gap-2 text-pretty">
-                            <div class="flex w-fit flex-wrap gap-2">
-                                ${tags
-                                    .map(
-                                        (tag: string) => `
-                                    <span class="rounded-lg bg-indigo-400/80 px-2 py-1 text-[color:var(--background-color)]">
-                                        ${tag}
-                                    </span>`,
-                                    )
-                                    .join("")}
-                            </div>
-                            <h2 class="text-3xl">
-                                ${title}
-                            </h2>
-                            <p class="text-sm text-gray-200">${description}</p>
-                            <p class="text-xs text-gray-400">
-                                Published on ${new Date(pubDate).toLocaleDateString()}
-                            </p>
-                            ${
-                                updatedDate
-                                    ? `
-                                <p class="text-xs text-gray-400">
-                                    Updated on ${new Date(updatedDate).toLocaleDateString()}
-                                </p>`
-                                    : ""
-                            }
-                        </div>
+                        <h3 class="text-xl text-white hover:text-cyan-300 transition-colors">
+                            ${item.title}
+                        </h3>
+                        <p class="text-sm text-gray-300 line-clamp-2 leading-relaxed">
+                            ${item.description || ""}
+                        </p>
+                        <p class="text-xs text-gray-400 pt-1 mt-auto">
+                            Published on ${dateFormatted}
+                        </p>
                     </a>
                 </li>`;
             })
             .join("");
+
+        searchResults.innerHTML = DomPurify.sanitize(html);
     }
 
-    async function fetchSearchResults(search: string) {
-        if (search.length === 0) {
+    function initSearch() {
+        const searchButton = document.getElementById("search-button");
+        const searchModal = document.getElementById("search-modal");
+        const searchContent = document.getElementById("search-content");
+        const searchInput = document.getElementById("search-input") as HTMLInputElement | null;
+        const closeModal = document.getElementById("close-modal");
+        const searchResults = document.getElementById("search-results");
+
+        if (!searchModal || !searchInput) return;
+
+        function openSearch() {
+            searchModal?.classList.remove("hidden");
+            searchModal?.classList.add("flex");
+            document.body.classList.add("overflow-hidden");
+            searchInput?.focus();
+            if (searchInput) searchInput.select();
+            preloadSearchData();
+        }
+
+        function closeSearch() {
+            searchModal?.classList.add("hidden");
+            searchModal?.classList.remove("flex");
+            document.body.classList.remove("overflow-hidden");
+            if (searchInput) searchInput.value = "";
             if (searchResults) {
                 searchResults.innerHTML = "";
             }
-            return;
         }
-        if (!SEARCH_DATA) {
+
+        async function preloadSearchData() {
+            if (SEARCH_DATA) return;
             try {
-                const res = await fetch(
-                    `${import.meta.env.BASE_URL}/posts.json`,
-                );
-                if (!res.ok) {
-                    throw new Error("Something went wrong…please try again");
+                const res = await fetch(`${import.meta.env.BASE_URL}/posts.json`);
+                if (res.ok) {
+                    SEARCH_DATA = await res.json();
+                    if (SEARCH_DATA) {
+                        FUSE_INSTANCE = new Fuse(SEARCH_DATA, FUSE_OPTIONS);
+                    }
                 }
-                const data = await res.json();
-                SEARCH_DATA = data;
-            } catch (e) {
-                console.error(e);
+            } catch (err) {
+                console.error("Failed to load search index:", err);
             }
         }
-        if (SEARCH_DATA && !FUSE_INSTANCE) {
-            FUSE_INSTANCE = new Fuse(SEARCH_DATA, FUSE_OPTIONS);
-        }
-        if (!FUSE_INSTANCE) {
-            return;
-        }
-        const searchResult = FUSE_INSTANCE.search(search);
-        if (searchResults) {
-            const rawHtml = searchResult.length > 0
-                    ? displayResults(searchResult)
-                    : "No results found…";
-            searchResults.innerHTML = DomPurify.sanitize(rawHtml);
-        }
-    }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const searchButton = document.getElementById("search-button");
-        const searchContent = document.getElementById("search-content");
-        const searchInput = document.getElementById("search-input");
-        const searchModal = document.getElementById("search-modal");
-        const closeModalButton = document.getElementById("close-modal");
+        function handleInput() {
+            const query = searchInput?.value.trim() || "";
+            if (query.length < 2) {
+                if (searchResults) {
+                    searchResults.innerHTML = "";
+                }
+                return;
+            }
 
-        searchContent?.addEventListener("click", (e: MouseEvent) => {
+            if (!FUSE_INSTANCE) {
+                preloadSearchData().then(() => {
+                    if (FUSE_INSTANCE) {
+                        const results = FUSE_INSTANCE.search(query);
+                        renderResults(results);
+                    }
+                });
+                return;
+            }
+
+            const results = FUSE_INSTANCE.search(query);
+            renderResults(results);
+        }
+
+        searchButton?.addEventListener("click", openSearch);
+        closeModal?.addEventListener("click", closeSearch);
+
+        searchModal?.addEventListener("click", (e) => {
+            if (e.target === searchModal) closeSearch();
+        });
+
+        searchContent?.addEventListener("click", (e) => {
             e.stopPropagation();
         });
 
-        const handleClose = (event: KeyboardEvent | MouseEvent) => {
-            if (event instanceof KeyboardEvent && event.key === "Escape") {
-                toggleModal();
-            } else if (event.target === searchModal) {
-                toggleModal();
+        searchInput?.addEventListener("input", handleInput);
+
+        window.addEventListener("keydown", (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+                e.preventDefault();
+                if (searchModal.classList.contains("hidden")) {
+                    openSearch();
+                } else {
+                    closeSearch();
+                }
+            } else if (e.key === "Escape" && !searchModal.classList.contains("hidden")) {
+                closeSearch();
             }
-        };
+        });
+    }
 
-        const handleOnSearch = (event: Event) => {
-            const target = event.target as HTMLInputElement;
-            fetchSearchResults(target.value);
-        };
-
-        searchButton?.addEventListener("click", toggleModal);
-        searchInput?.addEventListener("input", handleOnSearch);
-        searchModal?.addEventListener("click", handleClose);
-        closeModalButton?.addEventListener("click", toggleModal);
-        window.addEventListener("keydown", handleClose);
-    });
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initSearch);
+    } else {
+        initSearch();
+    }
 </script>
